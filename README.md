@@ -2,7 +2,7 @@ go-zabbix
 ==============================================================================
 Golang package, implement zabbix sender protocol for send metrics to zabbix.
 
-Example:
+Example 1:
 ```go
 package main
 
@@ -13,7 +13,7 @@ import (
 
 const (
     defaultHost  = `localhost`
-    defaultPort  = 10051
+    defaultPort  = `10051`
 )
 
 func main() {
@@ -27,5 +27,22 @@ func main() {
     // Send packet to zabbix
     z := NewSender(defaultHost, defaultPort)
     z.Send(packet)
+}
+```
+
+Example 2:
+```go
+package main
+import (
+	"fmt"
+	"github.com/andresvia/go-zabbix"
+	"time"
+)
+func main() {
+	z := zabbix.NewConfiguredSender()
+	for {
+		z.SendMetric("time_now_unix", fmt.Sprintf("%v", time.Now().Unix()))
+		time.Sleep(time.Second * 1)
+	}
 }
 ```
